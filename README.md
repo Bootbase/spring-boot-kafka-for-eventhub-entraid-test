@@ -1,6 +1,6 @@
 # Kafka Event Hub Connectivity Test
 
-Test Kafka producer/consumer connectivity to Azure Event Hub with Entra ID authentication.
+Test Kafka producer/consumer connectivity to Azure Event Hub with Entra ID Service Principal (Client ID & Secret) authentication.
 
 ## Prerequisites
 
