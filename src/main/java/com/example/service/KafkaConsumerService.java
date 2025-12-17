@@ -1,6 +1,6 @@
 package com.example.service;
 
-import jakarta.annotation.PostConstruct;
+import javax.annotation.PostConstruct;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,15 +18,12 @@ public class KafkaConsumerService {
     @Value("${app.eventhub.topic}")
     private String topic;
 
-    @Value("${spring.kafka.consumer.group-id}")
-    private String groupId;
-
     @PostConstruct
     public void init() {
-        log.info("KafkaConsumerService initialized - listening on topic [{}] with group [{}]", topic, groupId);
+        log.info("KafkaConsumerService initialized - listening on topic [{}] with group [{}]", topic, "$Default");
     }
 
-    @KafkaListener(topics = "${app.eventhub.topic}", groupId = "${spring.kafka.consumer.group-id}")
+    @KafkaListener(topics = "${app.eventhub.topic}", groupId = "$Default")
     public void consume(ConsumerRecord<String, String> record) {
         log.info("\n========================================\n" +
                  "CONSUMER: Message received from topic [{}]\n" +

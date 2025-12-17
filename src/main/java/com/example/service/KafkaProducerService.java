@@ -29,24 +29,21 @@ public class KafkaProducerService {
                 .build();
 
         kafkaTemplate.send(kafkaMessage)
-                .whenComplete((result, exception) -> {
-                    if (exception != null) {
-                        log.error("\n========================================\n" +
-                                  "PRODUCER: Failed to send message!\n" +
-                                  "Topic: {}\n" +
-                                  "Error: {}\n" +
-                                  "========================================", topic, exception.getMessage());
-                    } else {
-                        log.info("\n========================================\n" +
-                                 "PRODUCER: Message sent successfully!\n" +
-                                 "Topic: {}\n" +
-                                 "Partition: {}\n" +
-                                 "Offset: {}\n" +
-                                 "========================================",
-                                topic,
-                                result.getRecordMetadata().partition(),
-                                result.getRecordMetadata().offset());
-                    }
-                });
+                .addCallback(
+                    result -> log.info("\n========================================\n" +
+                             "PRODUCER: Message sent successfully!\n" +
+                             "Topic: {}\n" +
+                             "Partition: {}\n" +
+                             "Offset: {}\n" +
+                             "========================================",
+                            topic,
+                            result.getRecordMetadata().partition(),
+                            result.getRecordMetadata().offset()),
+                    exception -> log.error("\n========================================\n" +
+                              "PRODUCER: Failed to send message!\n" +
+                              "Topic: {}\n" +
+                              "Error: {}\n" +
+                              "========================================", topic, exception.getMessage())
+                );
     }
 }

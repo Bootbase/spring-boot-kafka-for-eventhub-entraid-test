@@ -2,7 +2,11 @@
 
 Test Kafka producer/consumer connectivity to Azure Event Hub with Entra ID authentication.
 
-> **Note**: Requires Java 21 (Kafka OAuth incompatible with Java 24+, see [KAFKA-16259](https://issues.apache.org/jira/browse/KAFKA-16259))
+## Prerequisites
+
+- Java 8
+- Maven 3.x
+- Docker (optional)
 
 ## Setup
 
@@ -12,16 +16,16 @@ Test Kafka producer/consumer connectivity to Azure Event Hub with Entra ID authe
    ```
 
 2. Edit `.env` with your Azure credentials:
-   ```bash
+   ```
    AZURE_TENANT_ID=your-tenant-id
    AZURE_CLIENT_ID=your-client-id
    AZURE_CLIENT_SECRET=your-client-secret
    EVENT_HUB_NAMESPACE_ENDPOINT=your-namespace.servicebus.windows.net
    EVENT_HUB_TOPIC_NAME=your-topic-name
-   EVENT_HUB_CONSUMER_GROUP=$Default
+
    ```
 
-## Build & Run
+## Run without Docker
 
 ```bash
 ./run.sh [mode]
@@ -35,16 +39,15 @@ Test Kafka producer/consumer connectivity to Azure Event Hub with Entra ID authe
 | `producer` | Send a message and exit |
 | `consumer` | Listen for messages only |
 
-### Testing Consumer with Pre-existing Messages
-
-To test that the consumer can read messages sent before it started:
+## Run with Docker
 
 ```bash
-# Terminal 1: Send a message
-./run.sh producer
+# Default mode (both)
+docker compose up --build
 
-# Terminal 2: Start consumer (reads from earliest offset)
-./run.sh consumer
+# Specific mode
+APP_MODE=producer docker compose up --build
+APP_MODE=consumer docker compose up --build
 ```
 
 ## Expected Output

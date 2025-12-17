@@ -1,0 +1,6 @@
+services:
+  app:
+    build: .
+    env_file: .env
+    environment:
+      - APP_MODE=${APP_MODE:-both}
