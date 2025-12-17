@@ -2,7 +2,7 @@
 
 Test Kafka producer/consumer connectivity to Azure Event Hub with Entra ID authentication.
 
-> **Note**: Requires Java 21 (Kafka OAuth incompatible with Java 24+, see [KAFKA-16259](https://issues.apache.org/jira/browse/KAFKA-16259))
+> **Note**: Requires Java 21
 
 ## Setup
 
